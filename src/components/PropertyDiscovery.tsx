@@ -178,61 +178,242 @@ export const PropertyDiscovery: React.FC<PropertyDiscoveryProps> = ({
               )}
             </div>
 
-            {/* City Dropdown Filter */}
-            <div className="flex items-center gap-2 w-full lg:w-auto">
-              <select
-                value={selectedCity}
-                onChange={(e) => setSelectedCity(e.target.value)}
-                className="bg-[#181a24] text-neutral-200 px-4 py-3 rounded-xl border border-neutral-800 text-xs focus:outline-none focus:border-[#c5a880] cursor-pointer"
-              >
-                <option value="ALL">All Destinations</option>
-                {cities.filter((c) => c !== "ALL").map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
+          {/* =========================================================
+    PROPERTY FILTERS
+========================================================= */}
 
-              {/* Property Type Dropdown */}
-              <select
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                className="bg-[#181a24] text-neutral-200 px-4 py-3 rounded-xl border border-neutral-800 text-xs focus:outline-none focus:border-[#c5a880] cursor-pointer"
-              >
-                <option value="ALL">All Typologies</option>
-                {propertyTypes.filter((t) => t !== "ALL").map((t) => (
-                  <option key={t} value={t}>
-                    {t}
-                  </option>
-                ))}
-              </select>
+<div className="w-full">
+  <div
+    className="
+      grid
+      w-full
+      grid-cols-1
+      gap-2.5
+      sm:grid-cols-2
+      sm:gap-3
+      lg:flex
+      lg:items-center
+      lg:gap-2.5
+      xl:gap-3
+    "
+  >
+    {/* =====================================================
+        CITY DROPDOWN
+    ===================================================== */}
 
-              {/* Sort Dropdown */}
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                className="bg-[#181a24] text-neutral-200 px-4 py-3 rounded-xl border border-neutral-800 text-xs focus:outline-none focus:border-[#c5a880] cursor-pointer"
-              >
-                <option value="featured">Sort: Featured Collection</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="area-desc">Area: Largest First</option>
-              </select>
+    <div className="w-full min-w-0 lg:flex-1">
+      <select
+        value={selectedCity}
+        onChange={(e) => setSelectedCity(e.target.value)}
+        className="
+          block
+          h-12
+          w-full
+          min-w-0
+          appearance-none
+          rounded-xl
+          border
+          border-neutral-800
+          bg-[#181a24]
+          px-4
+          pr-10
+          text-xs
+          text-neutral-200
+          outline-none
+          transition-all
+          duration-200
+          cursor-pointer
+          hover:border-neutral-700
+          focus:border-[#c5a880]
+          focus:ring-1
+          focus:ring-[#c5a880]/20
+          sm:h-[46px]
+          lg:h-11
+          xl:px-4
+        "
+      >
+        <option value="ALL">All Destinations</option>
 
-              {/* Drawer Toggle */}
-              <button
-                onClick={() => setIsFilterDrawerOpen(!isFilterDrawerOpen)}
-                className={`p-3 rounded-xl border text-xs flex items-center gap-2 transition-colors ${
-                  selectedAmenities.length > 0 || selectedBeds > 0
-                    ? "bg-[#c5a880]/20 border-[#c5a880] text-[#c5a880]"
-                    : "bg-[#181a24] border-neutral-800 text-neutral-400 hover:text-white"
-                }`}
-                title="Advanced Architectural Filters"
-              >
-                <SlidersHorizontal className="w-4 h-4" />
-                <span className="hidden sm:inline">Refine</span>
-              </button>
-            </div>
+        {cities
+          .filter((c) => c !== "ALL")
+          .map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+      </select>
+    </div>
+
+    {/* =====================================================
+        PROPERTY TYPE
+    ===================================================== */}
+
+    <div className="w-full min-w-0 lg:flex-1">
+      <select
+        value={selectedType}
+        onChange={(e) => setSelectedType(e.target.value)}
+        className="
+          block
+          h-12
+          w-full
+          min-w-0
+          appearance-none
+          rounded-xl
+          border
+          border-neutral-800
+          bg-[#181a24]
+          px-4
+          pr-10
+          text-xs
+          text-neutral-200
+          outline-none
+          transition-all
+          duration-200
+          cursor-pointer
+          hover:border-neutral-700
+          focus:border-[#c5a880]
+          focus:ring-1
+          focus:ring-[#c5a880]/20
+          sm:h-[46px]
+          lg:h-11
+          xl:px-4
+        "
+      >
+        <option value="ALL">All Typologies</option>
+
+        {propertyTypes
+          .filter((t) => t !== "ALL")
+          .map((t) => (
+            <option key={t} value={t}>
+              {t}
+            </option>
+          ))}
+      </select>
+    </div>
+
+    {/* =====================================================
+        SORT DROPDOWN
+    ===================================================== */}
+
+    <div className="w-full min-w-0 sm:col-span-2 lg:col-span-1 lg:flex-1">
+      <select
+        value={sortBy}
+        onChange={(e) =>
+          setSortBy(e.target.value as any)
+        }
+        className="
+          block
+          h-12
+          w-full
+          min-w-0
+          appearance-none
+          rounded-xl
+          border
+          border-neutral-800
+          bg-[#181a24]
+          px-4
+          pr-10
+          text-xs
+          text-neutral-200
+          outline-none
+          transition-all
+          duration-200
+          cursor-pointer
+          hover:border-neutral-700
+          focus:border-[#c5a880]
+          focus:ring-1
+          focus:ring-[#c5a880]/20
+          sm:h-[46px]
+          lg:h-11
+          xl:px-4
+        "
+      >
+        <option value="featured">
+          Sort: Featured Collection
+        </option>
+
+        <option value="price-desc">
+          Price: High to Low
+        </option>
+
+        <option value="price-asc">
+          Price: Low to High
+        </option>
+
+        <option value="area-desc">
+          Area: Largest First
+        </option>
+      </select>
+    </div>
+
+    {/* =====================================================
+        ADVANCED FILTER / REFINE
+    ===================================================== */}
+
+    <div className="w-full sm:col-span-2 lg:col-span-1 lg:w-auto lg:shrink-0">
+      <button
+        type="button"
+        onClick={() =>
+          setIsFilterDrawerOpen(!isFilterDrawerOpen)
+        }
+        className={`
+          flex
+          h-12
+          w-full
+          items-center
+          justify-center
+          gap-2
+          rounded-xl
+          border
+          px-4
+          text-xs
+          font-medium
+          uppercase
+          tracking-wider
+          transition-all
+          duration-200
+          sm:h-[46px]
+          lg:h-11
+          lg:w-auto
+          lg:min-w-[100px]
+          ${
+            selectedAmenities.length > 0 ||
+            selectedBeds > 0
+              ? "border-[#c5a880] bg-[#c5a880]/20 text-[#c5a880] hover:bg-[#c5a880]/25"
+              : "border-neutral-800 bg-[#181a24] text-neutral-400 hover:border-neutral-700 hover:text-white"
+          }
+        `}
+        title="Advanced Architectural Filters"
+      >
+        <SlidersHorizontal className="h-4 w-4 shrink-0" />
+
+        <span>Refine</span>
+
+        {(selectedAmenities.length > 0 ||
+          selectedBeds > 0) && (
+          <span
+            className="
+              flex
+              h-5
+              min-w-5
+              items-center
+              justify-center
+              rounded-full
+              bg-[#c5a880]
+              px-1.5
+              text-[9px]
+              font-bold
+              text-[#0c0d11]
+            "
+          >
+            {selectedAmenities.length +
+              (selectedBeds > 0 ? 1 : 0)}
+          </span>
+        )}
+      </button>
+    </div>
+  </div>
+</div>
           </div>
 
           {/* Quick Filter Chips (City Pills) */}

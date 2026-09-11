@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "motion/react";
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { useSmoothScroll } from "./SmoothScroll";
+
 import {
-  Compass,
   Volume2,
   VolumeX,
   Menu,
@@ -11,7 +11,7 @@ import {
   Sparkles,
   Shield,
   ArrowRight,
-  MessageCircle
+  MessageCircle,
 } from "lucide-react";
 
 interface NavbarProps {
@@ -25,229 +25,1206 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenConcierge,
   onOpenBookTour,
   onOpenAdmin,
-  onWhatsApp
+  onWhatsApp,
 }) => {
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
-  const [isAmbientSoundOn, setIsAmbientSoundOn] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAmbientSoundOn, setIsAmbientSoundOn] = useState(false);
+
   const { scrollTo } = useSmoothScroll();
+
+  /* =========================================================
+     SCROLL
+  ========================================================= */
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+      setIsScrolled(window.scrollY > 40);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  /* =========================================================
+     LOCK BODY WHEN MOBILE MENU IS OPEN
+  ========================================================= */
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
+  /* =========================================================
+     CLOSE MOBILE MENU ON RESIZE
+  ========================================================= */
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1280) {
+        setIsMobileMenuOpen(false);
       }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
+
+  /* =========================================================
+     NAVIGATION
+  ========================================================= */
 
   const scrollToSection = (id: string) => {
     setIsMobileMenuOpen(false);
-    scrollTo(id, { offset: -25, duration: 1.3 });
+
+    window.setTimeout(() => {
+      scrollTo(id, {
+        offset: -20,
+        duration: 1.3,
+      });
+    }, 100);
   };
 
-  // Subtle audio tone synthesizer for ambient atmosphere
+  /* =========================================================
+     ACTIONS
+  ========================================================= */
+
+  const handleConcierge = () => {
+    setIsMobileMenuOpen(false);
+    onOpenConcierge();
+  };
+
+  const handleBookTour = () => {
+    setIsMobileMenuOpen(false);
+    onOpenBookTour();
+  };
+
+  const handleAdmin = () => {
+    setIsMobileMenuOpen(false);
+    onOpenAdmin();
+  };
+
+  const handleWhatsApp = () => {
+    setIsMobileMenuOpen(false);
+    onWhatsApp();
+  };
+
   const toggleAmbience = () => {
     setIsAmbientSoundOn((prev) => !prev);
   };
 
   return (
-    <motion.header
-      initial={{ y: -40, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
-        isScrolled
-          ? "bg-[#0b0c10]/92 backdrop-blur-xl border-b border-neutral-800/80 shadow-2xl py-3"
-          : "bg-gradient-to-b from-black/80 via-black/30 to-transparent py-5"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
-        {/* Brand Monogram & Title */}
-        <a
-          href="#"
-          className="flex items-center gap-3 text-left group"
+    <>
+      {/* =====================================================
+          MAIN NAVBAR
+          IMPORTANT:
+          Mobile drawer is NOT inside this element.
+      ===================================================== */}
+
+      <motion.header
+        initial={{
+          y: -30,
+          opacity: 0,
+        }}
+        animate={{
+          y: 0,
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.7,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+        className={`
+          fixed
+          inset-x-0
+          top-0
+          z-[100]
+          w-full
+          max-w-none
+          transition-all
+          duration-500
+          ${
+            isScrolled
+              ? "bg-[#0b0c10]/95 backdrop-blur-xl border-b border-neutral-800/80 shadow-2xl"
+              : "bg-gradient-to-b from-black/85 via-black/35 to-transparent"
+          }
+        `}
+      >
+        {/* =================================================
+            NAVBAR CONTAINER
+        ================================================= */}
+
+        <div
+          className={`
+            mx-auto
+            w-full
+            max-w-[1600px]
+            px-4
+            sm:px-5
+            md:px-8
+            lg:px-10
+            xl:px-12
+            2xl:px-16
+            ${
+              isScrolled
+                ? "py-3 sm:py-3.5"
+                : "py-4 sm:py-5 md:py-6"
+            }
+          `}
         >
-          <div className="w-9 h-9 rounded-lg border border-[#c5a880]/60 flex items-center justify-center bg-[#13151d] text-[#c5a880] font-serif text-lg tracking-wider group-hover:border-[#c5a880] transition-colors">
-            S
+          <div className="flex w-full min-w-0 items-center justify-between">
+            {/* =================================================
+                LOGO
+            ================================================= */}
+
+            <a
+              href="#"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="
+                flex
+                min-w-0
+                shrink
+                items-center
+                gap-2.5
+                sm:gap-3
+              "
+            >
+              {/* Monogram */}
+
+              <div
+                className="
+                  flex
+                  h-8
+                  w-8
+                  shrink-0
+                  items-center
+                  justify-center
+                  rounded-lg
+                  border
+                  border-[#c5a880]/60
+                  bg-[#13151d]
+                  font-serif
+                  text-base
+                  tracking-wider
+                  text-[#c5a880]
+                  transition-all
+                  duration-300
+                  hover:border-[#c5a880]
+                  sm:h-9
+                  sm:w-9
+                  sm:text-lg
+                  md:h-10
+                  md:w-10
+                "
+              >
+                S
+              </div>
+
+              {/* Brand */}
+
+              <div className="min-w-0">
+                <span
+                  className="
+                    block
+                    truncate
+                    font-serif
+                    text-[13px]
+                    uppercase
+                    tracking-[0.12em]
+                    text-neutral-100
+                    sm:text-base
+                    sm:tracking-[0.16em]
+                    md:text-lg
+                    lg:text-xl
+                    lg:tracking-[0.2em]
+                  "
+                >
+                  Smith & Stone
+                </span>
+
+                <span
+                  className="
+                    block
+                    truncate
+                    text-[7px]
+                    font-light
+                    uppercase
+                    tracking-[0.2em]
+                    text-[#c5a880]
+                    sm:text-[8px]
+                    sm:tracking-[0.25em]
+                    md:text-[9px]
+                    md:tracking-[0.3em]
+                  "
+                >
+                  Private Real Estate
+                </span>
+              </div>
+            </a>
+
+            {/* =================================================
+                DESKTOP NAVIGATION
+            ================================================= */}
+
+            <nav
+              className="
+                hidden
+                xl:flex
+                flex-1
+                items-center
+                justify-center
+                gap-5
+                px-6
+                2xl:gap-8
+              "
+            >
+              <button
+                type="button"
+                onClick={() =>
+                  scrollToSection("properties")
+                }
+                className="
+                  whitespace-nowrap
+                  text-[10px]
+                  font-medium
+                  uppercase
+                  tracking-[0.15em]
+                  text-neutral-300
+                  transition-colors
+                  hover:text-[#c5a880]
+                  2xl:text-xs
+                  2xl:tracking-[0.18em]
+                "
+              >
+                Properties
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  scrollToSection("cinematic-tour")
+                }
+                className="
+                  flex
+                  items-center
+                  gap-1.5
+                  whitespace-nowrap
+                  text-[10px]
+                  font-medium
+                  uppercase
+                  tracking-[0.15em]
+                  text-neutral-300
+                  transition-colors
+                  hover:text-[#c5a880]
+                  2xl:text-xs
+                  2xl:tracking-[0.18em]
+                "
+              >
+                <span>3D Room Tour</span>
+
+                <span
+                  className="
+                    h-1.5
+                    w-1.5
+                    rounded-full
+                    bg-[#c5a880]
+                    animate-pulse
+                  "
+                />
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  scrollToSection("architectural-builder")
+                }
+                className="
+                  flex
+                  items-center
+                  gap-1.5
+                  whitespace-nowrap
+                  text-[10px]
+                  font-medium
+                  uppercase
+                  tracking-[0.15em]
+                  text-[#c5a880]
+                  transition-colors
+                  hover:text-[#dfc49d]
+                  2xl:text-xs
+                  2xl:tracking-[0.18em]
+                "
+              >
+                <span>What to Build</span>
+
+                <span
+                  className="
+                    rounded
+                    border
+                    border-[#c5a880]/40
+                    bg-[#c5a880]/15
+                    px-1.5
+                    py-0.5
+                    font-mono
+                    text-[8px]
+                    tracking-normal
+                    2xl:text-[9px]
+                  "
+                >
+                  3D
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  scrollToSection("valuation")
+                }
+                className="
+                  whitespace-nowrap
+                  text-[10px]
+                  font-medium
+                  uppercase
+                  tracking-[0.15em]
+                  text-neutral-300
+                  transition-colors
+                  hover:text-[#c5a880]
+                  2xl:text-xs
+                  2xl:tracking-[0.18em]
+                "
+              >
+                Valuation
+              </button>
+
+              <button
+                type="button"
+                onClick={onOpenConcierge}
+                className="
+                  flex
+                  items-center
+                  gap-1.5
+                  whitespace-nowrap
+                  text-[10px]
+                  font-medium
+                  uppercase
+                  tracking-[0.15em]
+                  text-[#c5a880]
+                  transition-colors
+                  hover:text-[#dfc49d]
+                  2xl:text-xs
+                  2xl:tracking-[0.18em]
+                "
+              >
+                <Sparkles className="h-3.5 w-3.5" />
+
+                <span>AI Concierge</span>
+              </button>
+            </nav>
+
+            {/* =================================================
+                DESKTOP ACTIONS
+            ================================================= */}
+
+            <div
+              className="
+                hidden
+                shrink-0
+                items-center
+                gap-2
+                lg:flex
+                xl:gap-2.5
+              "
+            >
+              {/* Ambient */}
+
+              <button
+                type="button"
+                onClick={toggleAmbience}
+                aria-label={
+                  isAmbientSoundOn
+                    ? "Mute ambient sound"
+                    : "Enable ambient sound"
+                }
+                className="
+                  flex
+                  h-9
+                  w-9
+                  items-center
+                  justify-center
+                  rounded-lg
+                  text-neutral-400
+                  transition-colors
+                  hover:bg-neutral-800/60
+                  hover:text-white
+                "
+              >
+                {isAmbientSoundOn ? (
+                  <Volume2 className="h-4 w-4 text-[#c5a880]" />
+                ) : (
+                  <VolumeX className="h-4 w-4" />
+                )}
+              </button>
+
+              {/* CRM */}
+
+              <button
+                type="button"
+                onClick={onOpenAdmin}
+                className="
+                  flex
+                  items-center
+                  gap-1.5
+                  whitespace-nowrap
+                  rounded-lg
+                  border
+                  border-neutral-700/80
+                  px-3
+                  py-2
+                  text-[10px]
+                  uppercase
+                  tracking-wider
+                  text-neutral-300
+                  transition-all
+                  hover:border-neutral-500
+                  hover:text-white
+                "
+              >
+                <Shield className="h-3.5 w-3.5 text-[#c5a880]" />
+
+                <span>CRM</span>
+              </button>
+
+              {/* Book Tour */}
+
+              <button
+                type="button"
+                onClick={onOpenBookTour}
+                className="
+                  group
+                  flex
+                  items-center
+                  gap-1.5
+                  whitespace-nowrap
+                  rounded-xl
+                  bg-[#c5a880]
+                  px-4
+                  py-2.5
+                  text-[10px]
+                  font-semibold
+                  uppercase
+                  tracking-widest
+                  text-[#0c0d11]
+                  shadow-lg
+                  shadow-[#c5a880]/15
+                  transition-all
+                  hover:bg-[#d5ba92]
+                  2xl:px-5
+                  2xl:text-xs
+                "
+              >
+                <Calendar className="h-3.5 w-3.5" />
+
+                <span>Book Tour</span>
+
+                <ArrowRight
+                  className="
+                    h-3
+                    w-3
+                    transition-transform
+                    group-hover:translate-x-0.5
+                  "
+                />
+              </button>
+            </div>
+
+            {/* =================================================
+                MOBILE / TABLET ACTIONS
+            ================================================= */}
+
+            <div
+              className="
+                flex
+                shrink-0
+                items-center
+                gap-1
+                lg:hidden
+              "
+            >
+              {/* AI */}
+
+              <button
+                type="button"
+                onClick={handleConcierge}
+                aria-label="AI Concierge"
+                className="
+                  flex
+                  h-10
+                  w-10
+                  shrink-0
+                  items-center
+                  justify-center
+                  rounded-lg
+                  text-[#c5a880]
+                  transition-colors
+                  hover:bg-[#c5a880]/10
+                  sm:h-11
+                  sm:w-11
+                "
+              >
+                <Sparkles className="h-5 w-5" />
+              </button>
+
+              {/* Menu */}
+
+              <button
+                type="button"
+                onClick={() =>
+                  setIsMobileMenuOpen((prev) => !prev)
+                }
+                aria-label={
+                  isMobileMenuOpen
+                    ? "Close menu"
+                    : "Open menu"
+                }
+                aria-expanded={isMobileMenuOpen}
+                className="
+                  flex
+                  h-10
+                  w-10
+                  shrink-0
+                  items-center
+                  justify-center
+                  rounded-lg
+                  text-neutral-200
+                  transition-colors
+                  hover:bg-neutral-800/60
+                  hover:text-white
+                  sm:h-11
+                  sm:w-11
+                "
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </button>
+            </div>
           </div>
-          <div>
-            <span className="font-serif text-lg md:text-xl font-normal tracking-[0.2em] text-neutral-100 uppercase block">
-              Smith & Stone
-            </span>
-            <span className="text-[9px] uppercase tracking-[0.3em] text-[#c5a880] block font-light">
-              Private Real Estate
-            </span>
-          </div>
-        </a>
-
-        {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-7 text-xs uppercase tracking-[0.18em] font-medium text-neutral-300">
-          <button
-            onClick={() => scrollToSection("properties")}
-            className="hover:text-[#c5a880] transition-colors"
-          >
-            Properties
-          </button>
-          <button
-            onClick={() => scrollToSection("cinematic-tour")}
-            className="hover:text-[#c5a880] transition-colors flex items-center gap-1.5"
-          >
-            <span>3D Room Tour</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#c5a880] animate-pulse" />
-          </button>
-          <button
-            onClick={() => scrollToSection("architectural-builder")}
-            className="hover:text-[#c5a880] text-[#c5a880] transition-colors flex items-center gap-1.5"
-          >
-            <span>What to Build</span>
-            <span className="text-[9px] px-1.5 py-0.2 bg-[#c5a880]/20 rounded border border-[#c5a880]/40 font-mono">3D</span>
-          </button>
-          <button
-            onClick={() => scrollToSection("valuation")}
-            className="hover:text-[#c5a880] transition-colors"
-          >
-            Valuation
-          </button>
-          <button
-            onClick={onOpenConcierge}
-            className="hover:text-[#c5a880] transition-colors flex items-center gap-1 text-[#c5a880]"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>AI Concierge</span>
-          </button>
-        </nav>
-
-        {/* Action Controls */}
-        <div className="hidden sm:flex items-center gap-3">
-          {/* Audio Ambience Toggle */}
-          <button
-            onClick={toggleAmbience}
-            className="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors"
-            title={isAmbientSoundOn ? "Mute Ambient Sound" : "Enable Ambient Sound"}
-          >
-            {isAmbientSoundOn ? (
-              <Volume2 className="w-4 h-4 text-[#c5a880]" />
-            ) : (
-              <VolumeX className="w-4 h-4" />
-            )}
-          </button>
-
-          {/* Admin CRM Shortcut */}
-          <button
-            onClick={onOpenAdmin}
-            className="px-3.5 py-2 rounded-lg border border-neutral-700/80 hover:border-neutral-500 text-neutral-300 hover:text-white text-xs tracking-wider uppercase transition-colors"
-            title="Private Office CRM"
-          >
-            <Shield className="w-3.5 h-3.5 inline mr-1 text-[#c5a880]" />
-            <span>CRM</span>
-          </button>
-
-          {/* Book Tour CTA Button */}
-          <button
-            onClick={onOpenBookTour}
-            className="px-5 py-2.5 rounded-xl bg-[#c5a880] hover:bg-[#d5ba92] text-[#0c0d11] font-semibold text-xs tracking-widest uppercase transition-all shadow-lg shadow-[#c5a880]/15 flex items-center gap-2 group/btn"
-          >
-            <Calendar className="w-3.5 h-3.5" />
-            <span>Book Tour</span>
-            <ArrowRight className="w-3 h-3 transform group-hover/btn:translate-x-0.5 transition-transform" />
-          </button>
         </div>
+      </motion.header>
 
-        {/* Mobile Menu Button */}
-        <div className="flex items-center gap-2 lg:hidden">
-          <button
-            onClick={onOpenConcierge}
-            className="p-2 text-[#c5a880]"
-            title="AI Concierge"
-          >
-            <Sparkles className="w-5 h-5" />
-          </button>
+      {/* =======================================================
+          MOBILE MENU
+          
+          VERY IMPORTANT:
+          This is OUTSIDE motion.header.
+          
+          Therefore:
+          - no transformed parent
+          - no broken fixed positioning
+          - no 264px width issue
+          - uses actual viewport width
+      ======================================================= */}
 
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 text-neutral-200 hover:text-white"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-      </div>
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* =================================================
+                BACKDROP
+            ================================================= */}
 
-      {/* Mobile Fullscreen Drawer */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-[68px] bg-[#0c0d11]/98 backdrop-blur-2xl z-50 p-6 flex flex-col justify-between animate-fadeIn border-t border-neutral-800">
-          <div className="space-y-6 pt-6 text-center">
-            <button
-              onClick={() => scrollToSection("properties")}
-              className="block w-full font-serif text-2xl text-neutral-200 hover:text-[#c5a880]"
-            >
-              Collection
-            </button>
-            <button
-              onClick={() => scrollToSection("cinematic-tour")}
-              className="block w-full font-serif text-2xl text-neutral-200 hover:text-[#c5a880]"
-            >
-              Cinematic & 3D Walkthrough
-            </button>
-            <button
-              onClick={() => scrollToSection("architectural-builder")}
-              className="block w-full font-serif text-2xl text-[#c5a880] hover:text-white"
-            >
-              What to Build (3D Concepts)
-            </button>
-            <button
-              onClick={() => scrollToSection("valuation")}
-              className="block w-full font-serif text-2xl text-neutral-200 hover:text-[#c5a880]"
-            >
-              Appraisals & Valuation
-            </button>
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                onOpenConcierge();
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() =>
+                setIsMobileMenuOpen(false)
+              }
+              className="
+                fixed
+                inset-0
+                z-[110]
+                bg-black/60
+                backdrop-blur-sm
+                xl:hidden
+              "
+            />
+
+            {/* =================================================
+                MOBILE DRAWER
+            ================================================= */}
+
+            <motion.div
+              initial={{
+                opacity: 0,
+                x: "100%",
               }}
-              className="block w-full font-serif text-2xl text-[#c5a880]"
-            >
-              AI Property Concierge
-            </button>
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                onOpenAdmin();
+              animate={{
+                opacity: 1,
+                x: 0,
               }}
-              className="block w-full text-sm font-sans tracking-widest text-neutral-400 uppercase pt-4"
+              exit={{
+                opacity: 0,
+                x: "100%",
+              }}
+              transition={{
+                duration: 0.35,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="
+                fixed
+                right-0
+                top-0
+                z-[120]
+                flex
+                h-[100dvh]
+                w-full
+                max-w-[430px]
+                flex-col
+                overflow-hidden
+                bg-[#0c0d11]
+                shadow-2xl
+                xl:hidden
+              "
+              style={{
+                width: "min(100vw, 430px)",
+              }}
             >
-              Advisor CRM Portal
-            </button>
-          </div>
+              {/* =================================================
+                  DRAWER HEADER
+              ================================================= */}
 
-          <div className="space-y-3 pb-8">
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                onOpenBookTour();
-              }}
-              className="w-full py-4 rounded-xl bg-[#c5a880] text-[#0c0d11] font-semibold text-xs uppercase tracking-widest"
-            >
-              Schedule Private Viewing
-            </button>
+              <div
+                className="
+                  flex
+                  h-[72px]
+                  shrink-0
+                  items-center
+                  justify-between
+                  border-b
+                  border-neutral-800
+                  px-5
+                  sm:h-[80px]
+                  sm:px-7
+                "
+              >
+                <div>
+                  <p
+                    className="
+                      font-serif
+                      text-lg
+                      uppercase
+                      tracking-[0.15em]
+                      text-neutral-100
+                    "
+                  >
+                    Smith & Stone
+                  </p>
 
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                onWhatsApp();
-              }}
-              className="w-full py-4 rounded-xl bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 font-semibold text-xs uppercase tracking-widest flex items-center justify-center gap-2"
-            >
-              <MessageCircle className="w-4 h-4 text-emerald-400" />
-              <span>WhatsApp Direct Desk</span>
-            </button>
-          </div>
-        </div>
-      )}
-    </motion.header>
+                  <p
+                    className="
+                      mt-0.5
+                      text-[7px]
+                      uppercase
+                      tracking-[0.3em]
+                      text-[#c5a880]
+                    "
+                  >
+                    Private Real Estate
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setIsMobileMenuOpen(false)
+                  }
+                  aria-label="Close navigation"
+                  className="
+                    flex
+                    h-10
+                    w-10
+                    items-center
+                    justify-center
+                    rounded-lg
+                    text-neutral-300
+                    transition-colors
+                    hover:bg-neutral-800
+                    hover:text-white
+                  "
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              {/* =================================================
+                  SCROLLABLE CONTENT
+              ================================================= */}
+
+              <div
+                className="
+                  flex-1
+                  overflow-y-auto
+                  overscroll-contain
+                  px-5
+                  py-6
+                  sm:px-7
+                  sm:py-8
+                "
+              >
+                <div className="space-y-1">
+                  {/* Collection */}
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      scrollToSection("properties")
+                    }
+                    className="
+                      group
+                      flex
+                      w-full
+                      items-center
+                      justify-between
+                      rounded-xl
+                      px-3
+                      py-4
+                      text-left
+                      transition-all
+                      hover:bg-neutral-800/50
+                      sm:py-5
+                    "
+                  >
+                    <span
+                      className="
+                        font-serif
+                        text-2xl
+                        text-neutral-200
+                        group-hover:text-[#c5a880]
+                        sm:text-3xl
+                      "
+                    >
+                      Collection
+                    </span>
+
+                    <ArrowRight
+                      className="
+                        h-4
+                        w-4
+                        text-neutral-600
+                        transition-transform
+                        group-hover:translate-x-1
+                        group-hover:text-[#c5a880]
+                      "
+                    />
+                  </button>
+
+                  {/* Cinematic Tour */}
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      scrollToSection("cinematic-tour")
+                    }
+                    className="
+                      group
+                      flex
+                      w-full
+                      items-center
+                      justify-between
+                      rounded-xl
+                      px-3
+                      py-4
+                      text-left
+                      transition-all
+                      hover:bg-neutral-800/50
+                      sm:py-5
+                    "
+                  >
+                    <div className="flex items-start gap-3">
+                      <span
+                        className="
+                          mt-2
+                          h-1.5
+                          w-1.5
+                          shrink-0
+                          rounded-full
+                          bg-[#c5a880]
+                          animate-pulse
+                        "
+                      />
+
+                      <span
+                        className="
+                          font-serif
+                          text-2xl
+                          leading-tight
+                          text-neutral-200
+                          group-hover:text-[#c5a880]
+                          sm:text-3xl
+                        "
+                      >
+                        Cinematic & 3D Walkthrough
+                      </span>
+                    </div>
+
+                    <ArrowRight
+                      className="
+                        ml-3
+                        h-4
+                        w-4
+                        shrink-0
+                        text-neutral-600
+                        transition-transform
+                        group-hover:translate-x-1
+                        group-hover:text-[#c5a880]
+                      "
+                    />
+                  </button>
+
+                  {/* What to Build */}
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      scrollToSection(
+                        "architectural-builder"
+                      )
+                    }
+                    className="
+                      group
+                      flex
+                      w-full
+                      items-center
+                      justify-between
+                      rounded-xl
+                      border
+                      border-[#c5a880]/20
+                      bg-[#c5a880]/5
+                      px-3
+                      py-4
+                      text-left
+                      transition-all
+                      hover:border-[#c5a880]/40
+                      hover:bg-[#c5a880]/10
+                      sm:py-5
+                    "
+                  >
+                    <div>
+                      <span
+                        className="
+                          block
+                          font-serif
+                          text-2xl
+                          leading-tight
+                          text-[#c5a880]
+                          sm:text-3xl
+                        "
+                      >
+                        What to Build
+                      </span>
+
+                      <span
+                        className="
+                          mt-2
+                          inline-block
+                          rounded
+                          border
+                          border-[#c5a880]/40
+                          bg-[#c5a880]/10
+                          px-2
+                          py-1
+                          font-mono
+                          text-[8px]
+                          tracking-wider
+                          text-[#c5a880]
+                        "
+                      >
+                        3D CONCEPTS
+                      </span>
+                    </div>
+
+                    <ArrowRight
+                      className="
+                        ml-3
+                        h-4
+                        w-4
+                        shrink-0
+                        text-[#c5a880]/60
+                        transition-transform
+                        group-hover:translate-x-1
+                        group-hover:text-[#c5a880]
+                      "
+                    />
+                  </button>
+
+                  {/* Valuation */}
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      scrollToSection("valuation")
+                    }
+                    className="
+                      group
+                      flex
+                      w-full
+                      items-center
+                      justify-between
+                      rounded-xl
+                      px-3
+                      py-4
+                      text-left
+                      transition-all
+                      hover:bg-neutral-800/50
+                      sm:py-5
+                    "
+                  >
+                    <span
+                      className="
+                        font-serif
+                        text-2xl
+                        text-neutral-200
+                        group-hover:text-[#c5a880]
+                        sm:text-3xl
+                      "
+                    >
+                      Appraisals & Valuation
+                    </span>
+
+                    <ArrowRight
+                      className="
+                        h-4
+                        w-4
+                        shrink-0
+                        text-neutral-600
+                        transition-transform
+                        group-hover:translate-x-1
+                        group-hover:text-[#c5a880]
+                      "
+                    />
+                  </button>
+
+                  {/* AI Concierge */}
+
+                  <button
+                    type="button"
+                    onClick={handleConcierge}
+                    className="
+                      group
+                      flex
+                      w-full
+                      items-center
+                      justify-between
+                      rounded-xl
+                      px-3
+                      py-4
+                      text-left
+                      transition-all
+                      hover:bg-neutral-800/50
+                      sm:py-5
+                    "
+                  >
+                    <div className="flex items-center gap-3">
+                      <Sparkles className="h-5 w-5 shrink-0 text-[#c5a880]" />
+
+                      <span
+                        className="
+                          font-serif
+                          text-2xl
+                          text-[#c5a880]
+                          sm:text-3xl
+                        "
+                      >
+                        AI Concierge
+                      </span>
+                    </div>
+
+                    <ArrowRight
+                      className="
+                        h-4
+                        w-4
+                        shrink-0
+                        text-[#c5a880]/60
+                        transition-transform
+                        group-hover:translate-x-1
+                        group-hover:text-[#c5a880]
+                      "
+                    />
+                  </button>
+                </div>
+
+                {/* Divider */}
+
+                <div className="my-6 h-px bg-neutral-800" />
+
+                {/* CRM */}
+
+                <button
+                  type="button"
+                  onClick={handleAdmin}
+                  className="
+                    flex
+                    w-full
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-xl
+                    border
+                    border-neutral-800
+                    bg-neutral-900/50
+                    px-4
+                    py-4
+                    text-xs
+                    font-medium
+                    uppercase
+                    tracking-[0.18em]
+                    text-neutral-400
+                    transition-all
+                    hover:border-[#c5a880]/40
+                    hover:text-[#c5a880]
+                  "
+                >
+                  <Shield className="h-4 w-4" />
+
+                  <span>Advisor CRM Portal</span>
+                </button>
+
+                {/* =================================================
+                    ACTIONS
+                ================================================= */}
+
+                <div className="mt-8 space-y-3">
+                  {/* Book Tour */}
+
+                  <button
+                    type="button"
+                    onClick={handleBookTour}
+                    className="
+                      group
+                      flex
+                      w-full
+                      items-center
+                      justify-center
+                      gap-2
+                      rounded-xl
+                      bg-[#c5a880]
+                      px-5
+                      py-4
+                      text-xs
+                      font-semibold
+                      uppercase
+                      tracking-[0.16em]
+                      text-[#0c0d11]
+                      shadow-xl
+                      shadow-[#c5a880]/10
+                      transition-all
+                      hover:bg-[#d5ba92]
+                    "
+                  >
+                    <Calendar className="h-4 w-4" />
+
+                    <span>Schedule Private Viewing</span>
+
+                    <ArrowRight
+                      className="
+                        h-3.5
+                        w-3.5
+                        transition-transform
+                        group-hover:translate-x-0.5
+                      "
+                    />
+                  </button>
+
+                  {/* WhatsApp */}
+
+                  <button
+                    type="button"
+                    onClick={handleWhatsApp}
+                    className="
+                      flex
+                      w-full
+                      items-center
+                      justify-center
+                      gap-2
+                      rounded-xl
+                      border
+                      border-emerald-500/30
+                      bg-emerald-600/10
+                      px-5
+                      py-4
+                      text-xs
+                      font-semibold
+                      uppercase
+                      tracking-[0.14em]
+                      text-emerald-300
+                      transition-all
+                      hover:border-emerald-400/50
+                      hover:bg-emerald-600/20
+                    "
+                  >
+                    <MessageCircle className="h-4 w-4 text-emerald-400" />
+
+                    <span>WhatsApp Direct Desk</span>
+                  </button>
+                </div>
+
+                {/* =================================================
+                    AMBIENT SOUND
+                ================================================= */}
+
+                <button
+                  type="button"
+                  onClick={toggleAmbience}
+                  className="
+                    mx-auto
+                    mt-6
+                    flex
+                    items-center
+                    gap-2
+                    text-[9px]
+                    uppercase
+                    tracking-[0.25em]
+                    text-neutral-600
+                    transition-colors
+                    hover:text-neutral-300
+                  "
+                >
+                  {isAmbientSoundOn ? (
+                    <>
+                      <Volume2 className="h-3.5 w-3.5 text-[#c5a880]" />
+                      <span>Ambient Sound On</span>
+                    </>
+                  ) : (
+                    <>
+                      <VolumeX className="h-3.5 w-3.5" />
+                      <span>Ambient Sound Off</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
