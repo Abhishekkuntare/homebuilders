@@ -1,0 +1,492 @@
+export interface Room3DConfig {
+  id: string;
+  name: string;
+  shortLabel: string;
+  icon: string; // emoji or identifier
+  category: "exterior" | "garden" | "living" | "kitchen" | "games" | "bedroom" | "bathroom" | "pool";
+  cameraPos: [number, number, number];
+  lookAt: [number, number, number];
+  hotspotPos: [number, number, number];
+  area: string;
+  floor: string;
+  tagline: string;
+  description: string;
+  architecturalMaterials: string[];
+  keyFeatures: string[];
+  lightingMood: string;
+}
+
+export interface Home3DModelData {
+  id: string;
+  slug: string;
+  title: string;
+  type: string;
+  location: string;
+  skyColor: number;
+  groundColor: number;
+  ambientColor: number;
+  sunColor: number;
+  accentColor: string;
+  environmentType: "villa" | "penthouse" | "coastal";
+  description: string;
+  rooms: Room3DConfig[];
+}
+
+export const HOMES_3D_DATA: Home3DModelData[] = [
+  {
+    id: "home-1",
+    slug: "the-oak-residence",
+    title: "The Oak Residence",
+    type: "Contemporary Architectural Villa",
+    location: "Pali Hill, Bandra West, Mumbai",
+    skyColor: 0x0a0c12,
+    groundColor: 0x181a22,
+    ambientColor: 0xfff3e0,
+    sunColor: 0xfef3c7,
+    accentColor: "#c5a880",
+    environmentType: "villa",
+    description: "Cantilevered brutalist villa draped in Burmese teak, travertine slabs, and lush coastal foliage.",
+    rooms: [
+      {
+        id: "exterior",
+        name: "Grand Arrival Portico & Facade",
+        shortLabel: "Portico Facade",
+        icon: "🏛️",
+        category: "exterior",
+        cameraPos: [15, 9, 17],
+        lookAt: [0, 2.5, 0],
+        hotspotPos: [7, 3, 7],
+        area: "1,200 SQ FT",
+        floor: "Ground Courtyard",
+        tagline: "Sovereign architectural facade with floating cantilever roof slabs",
+        description: "A monumental entry sequence characterized by raw board-formed concrete, bronze louvers, and architectural uplighting framed against native Gulmohar trees.",
+        architecturalMaterials: ["Board-formed Architectural Concrete", "Honed Roman Travertine", "Custom Bronze Mullions"],
+        keyFeatures: ["Private vehicular motor court", "24/7 biometric portal", "Reflecting water moat"],
+        lightingMood: "Twilight architectural illumination with bronze sconces"
+      },
+      {
+        id: "garden",
+        name: "Sculptural Zen Courtyard & Lawn",
+        shortLabel: "Zen Garden",
+        icon: "🌿",
+        category: "garden",
+        cameraPos: [-9, 3.5, 11],
+        lookAt: [-5, 1.5, 3],
+        hotspotPos: [-8, 1.8, 6],
+        area: "1,600 SQ FT",
+        floor: "Landscape Podium",
+        tagline: "A tranquil private sanctuary with Japanese black pines & water streams",
+        description: "Seamlessly extending outward from the great living room, this meditative courtyard features hand-hewn basalt stepping stones, manicured flora, and ambient ground spot-fixtures.",
+        architecturalMaterials: ["Flamed Basalt Pavers", "River Pebbles", "Burmese Teak Planters"],
+        keyFeatures: ["Sculptural centerpiece bonsai", "Acoustic water feature", "Automated micro-climate misting"],
+        lightingMood: "Soft 2700K warm landscape uplighting"
+      },
+      {
+        id: "living",
+        name: "Double-Height Grand Living Salon",
+        shortLabel: "Grand Salon",
+        icon: "🛋️",
+        category: "living",
+        cameraPos: [2.5, 2.2, 4.5],
+        lookAt: [1, 2.0, -4],
+        hotspotPos: [2, 2.4, 0.5],
+        area: "980 SQ FT",
+        floor: "Level 1",
+        tagline: "Panoramic glass salon with floating ribbon fireplace",
+        description: "The social epicenter of the residence boasts 18-foot ceiling clearances, motorized floor-to-ceiling glass curtains, custom Minotti modular seating, and a glowing linear hearth.",
+        architecturalMaterials: ["Bookmatched Calacatta Gold Marble", "Brushed Champagne Brass", "Acoustic Slatted Oak"],
+        keyFeatures: ["Recessed ribbon vapor fireplace", "Sonance invisible in-wall sound", "Floor-to-ceiling glass pocket doors"],
+        lightingMood: "Warm amber mood lighting with dimmable cove illumination"
+      },
+      {
+        id: "kitchen",
+        name: "Chef's Atelier Kitchen & Wine Lounge",
+        shortLabel: "Culinary Atelier",
+        icon: "🍽️",
+        category: "kitchen",
+        cameraPos: [-3.8, 2.3, -2.5],
+        lookAt: [-1.2, 1.8, -4.5],
+        hotspotPos: [-2.5, 2.2, -4.2],
+        area: "420 SQ FT",
+        floor: "Level 1 (East Wing)",
+        tagline: "Precision culinary engineering meets Italian marble craftsmanship",
+        description: "Features a monumental monolithic island carved from honed Nero Marquina marble, integrated Gaggenau 400 series induction cooktop, brass barstools, and backlit temperature-zoned wine cellar.",
+        architecturalMaterials: ["Honed Nero Marquina Marble", "Smoked Oak Millwork", "Matte Gunmetal Hardware"],
+        keyFeatures: ["Sub-Zero dual zone wine reserve", "Hidden butler prep scullery", "Integrated induction cooktop with downdraft"],
+        lightingMood: "Precision task spotlights & hanging linear brass pendants"
+      },
+      {
+        id: "games",
+        name: "Private Games & Billiards Lounge",
+        shortLabel: "Games Lounge",
+        icon: "🎱",
+        category: "games",
+        cameraPos: [5.5, 2.3, -2.8],
+        lookAt: [4.2, 1.8, -5.5],
+        hotspotPos: [4.5, 2.2, -4.8],
+        area: "540 SQ FT",
+        floor: "Level 1 (West Wing)",
+        tagline: "Custom regulation slate pool table with bespoke cocktail bar",
+        description: "An exclusive leisure pavilion equipped with a 9-foot tournament slate billiards table in tournament green felt, overhead brass canopy lamps, club leather armchairs, and private whisky display.",
+        architecturalMaterials: ["Tournament Italian Slate & Felt", "Saddle Tan Italian Leather", "Walnut Panel Accents"],
+        keyFeatures: ["Custom 9ft billiards table with cues", "Built-in mixology bar & glassware", "Surround acoustic isolation"],
+        lightingMood: "Intimate speakeasy glow with focused pool table directional lamp"
+      },
+      {
+        id: "bedroom",
+        name: "Primary Master Sanctuary",
+        shortLabel: "Master Bedroom",
+        icon: "🛏️",
+        category: "bedroom",
+        cameraPos: [4.2, 6.2, 3.2],
+        lookAt: [4.0, 5.8, -2.5],
+        hotspotPos: [4.5, 6.2, 0.5],
+        area: "650 SQ FT",
+        floor: "Upper Sanctuary (Level 2)",
+        tagline: "Elevated private suite with panoramic views & wraparound terrace",
+        description: "A sanctuary of restful serenity featuring a king-size floating platform bed, upholstered bouclé headboard, dual illuminated nightstands, motorized blackout drapery, and private terrace access.",
+        architecturalMaterials: ["Natural French White Oak Parquet", "Belgian Linen Wall Panels", "Brushed Bronze Trim"],
+        keyFeatures: ["King floating platform bed with underglow", "Private terrace transition", "Poliform custom glass wardrobe"],
+        lightingMood: "Diffused 2400K nocturnal warmth with reading goose-necks"
+      },
+      {
+        id: "bathroom",
+        name: "En-Suite Spa Bath & Toilet Suite",
+        shortLabel: "Stone Bath & Toilet",
+        icon: "🛁",
+        category: "bathroom",
+        cameraPos: [6.8, 6.1, -3.2],
+        lookAt: [5.2, 5.8, -5.2],
+        hotspotPos: [6.2, 6.2, -4.5],
+        area: "280 SQ FT",
+        floor: "Upper Sanctuary (Level 2)",
+        tagline: "Single-block carved limestone soaking tub & rain spa shower",
+        description: "A rejuvenating wellness retreat boasting an oval freestanding soaking tub carved from solid stone, frameless rain-shower enclosure with multi-jet spray, dual floating marble vanity, and discreet glass toilet enclosure.",
+        architecturalMaterials: ["Solid Carved Limestone Tub", "Dornbracht Brushed Platinum", "Fluted Privacy Glass"],
+        keyFeatures: ["Freestanding monolithic tub with floor spout", "Ceiling recessed rain-sky shower", "Dual vanity with illuminated anti-fog mirrors", "Enclosed wall-hung toilet suite"],
+        lightingMood: "Spa daylighting with concealed perimeter LED halo"
+      },
+      {
+        id: "pool",
+        name: "Infinity Heated Plunge Pool & Deck",
+        shortLabel: "Infinity Pool",
+        icon: "🏊",
+        category: "pool",
+        cameraPos: [-9.2, 3.2, 6.5],
+        lookAt: [-5.0, 1.2, 1.5],
+        hotspotPos: [-7.8, 1.8, 2.5],
+        area: "850 SQ FT",
+        floor: "Terrace Deck",
+        tagline: "Heated infinity pool with underwater lighting & sun lounge pavilion",
+        description: "Suspended over the landscaped gardens, the crystal-blue heated pool features an invisible overflow horizon edge, underwater mood lighting, sun loungers with umbrella shades, and outdoor showers.",
+        architecturalMaterials: ["Sukabumi Natural Green Stone Tiles", "Teak Sun Decking", "Seamless Tempered Glass Balustrades"],
+        keyFeatures: ["Zero-edge infinity overflow reflection", "Underwater LED chromotherapy lights", "Dual teak loungers with weather-resistant cushions"],
+        lightingMood: "Glowing aquatic cyan luminescence"
+      }
+    ]
+  },
+  {
+    id: "home-2",
+    slug: "azure-sky-penthouse",
+    title: "Azure Sky Penthouse",
+    type: "Ultra-Luxury Glass Tower Duplex",
+    location: "DIFC / Downtown, Dubai",
+    skyColor: 0x05070e,
+    groundColor: 0x12131a,
+    ambientColor: 0xe0f2fe,
+    sunColor: 0xbae6fd,
+    accentColor: "#38bdf8",
+    environmentType: "penthouse",
+    description: "Suspended 64 stories above the metropolitan skyline with double-height curved glass curtain walls.",
+    rooms: [
+      {
+        id: "exterior",
+        name: "Tower Sky Crown & Private Helipad Arrival",
+        shortLabel: "Tower Skyline",
+        icon: "🏙️",
+        category: "exterior",
+        cameraPos: [16, 12, 18],
+        lookAt: [0, 4, 0],
+        hotspotPos: [8, 5, 8],
+        area: "2,500 SQ FT",
+        floor: "Level 64 Penthouse",
+        tagline: "Ultra-prime panoramic aerial tower with 360-degree metropolitan horizon",
+        description: "The pinnacle of skyscraper architecture featuring aerodynamic glass fins, private high-speed pneumatic elevator portal, and an illuminated cantilevered terrace over the clouds.",
+        architecturalMaterials: ["Curved Triple-Glazed Low-E Glass", "Anodized Aerospace Titanium", "Polished Black Basalt"],
+        keyFeatures: ["Private express sky elevator access", "Cantilevered skybridge lookout", "Wind-shielded aerodynamic glass parapet"],
+        lightingMood: "Metropolitan twilight glow with cool crystalline accents"
+      },
+      {
+        id: "garden",
+        name: "Cloud Conservatory & Sky Garden",
+        shortLabel: "Sky Garden",
+        icon: "🌿",
+        category: "garden",
+        cameraPos: [-8, 4.5, 9],
+        lookAt: [-4, 2.5, 2],
+        hotspotPos: [-6.5, 2.8, 4.5],
+        area: "900 SQ FT",
+        floor: "Level 64 West Wing",
+        tagline: "Indoor-outdoor botanical biome high above the city",
+        description: "An climate-controlled glass atrium sanctuary housing exotic orchids, specimen olive trees, living vertical green walls, and water misting channels overlooking the skyline.",
+        architecturalMaterials: ["Extruded Aluminum Mullions", "Hydroponic Living Green Wall", "White Thassos Marble"],
+        keyFeatures: ["Climate-regulated microclimate biome", "Illuminated glass stepping pathway", "Automated botanical irrigation"],
+        lightingMood: "Daylight spectral growth lamps and subtle warm tree uplights"
+      },
+      {
+        id: "living",
+        name: "Double-Height Great Skyline Salon",
+        shortLabel: "Skyline Salon",
+        icon: "🛋️",
+        category: "living",
+        cameraPos: [2.2, 2.4, 4.2],
+        lookAt: [0.8, 2.2, -4],
+        hotspotPos: [1.8, 2.5, 0.2],
+        area: "1,400 SQ FT",
+        floor: "Level 64 Main",
+        tagline: "24-foot soaring glass volume framing sunset vistas",
+        description: "An awe-inspiring entertainment space framed by curved floor-to-ceiling glass, floating spiral staircase, Italian leather sectional, and custom blown-glass chandelier.",
+        architecturalMaterials: ["Crystal White Thassos Marble", "Champagne Gold PVD Stainless Steel", "Acoustic Silk Wallcoverings"],
+        keyFeatures: ["24-foot double-height void", "Custom 18-bulb hand-blown glass chandelier", "Motorized curved acoustic solar blinds"],
+        lightingMood: "Bespoke ambient dimming with warm gold accent accents"
+      },
+      {
+        id: "kitchen",
+        name: "Boffi Master Kitchen & Champagne Bar",
+        shortLabel: "Gourmet Kitchen",
+        icon: "🍽️",
+        category: "kitchen",
+        cameraPos: [-3.5, 2.3, -2.4],
+        lookAt: [-1.2, 1.9, -4.5],
+        hotspotPos: [-2.2, 2.2, -4.0],
+        area: "480 SQ FT",
+        floor: "Level 64 Dining Gallery",
+        tagline: "Italian high-gloss lacquer and waterfall quartzite bar",
+        description: "Engineered for elite gastronomy with integrated Gaggenau appliances, custom induction wok station, Sub-Zero refrigeration columns, and high-top champagne counter.",
+        architecturalMaterials: ["Cristallo Backlit Quartzite", "Smoked Mirror Splashes", "Brushed Brass Barstools"],
+        keyFeatures: ["Backlit translucent stone bar counter", "Concealed service pantry & prep kitchen", "Integrated sommelier cellar"],
+        lightingMood: "Translucent stone internal glow and focused spotlighting"
+      },
+      {
+        id: "games",
+        name: "Penthouse Casino & Billiards Club",
+        shortLabel: "VIP Club & Games",
+        icon: "🎱",
+        category: "games",
+        cameraPos: [5.2, 2.4, -2.5],
+        lookAt: [4.0, 1.9, -5.2],
+        hotspotPos: [4.2, 2.2, -4.5],
+        area: "620 SQ FT",
+        floor: "Level 64 West Wing",
+        tagline: "Custom midnight-blue felt pool table & private screening wall",
+        description: "A club room equipped with a custom slate billiards table in electric-blue cloth, poker table, laser projector screen, and illuminated back-bar with craft cocktail equipment.",
+        architecturalMaterials: ["Electric Blue Tournament Cloth", "Carbon Fiber Trim", "Quilted Velvet Wall Panels"],
+        keyFeatures: ["Custom slate billiards table with carbon fiber cues", "120-inch 4K laser projection screen", "Refrigerated humidor & spirits locker"],
+        lightingMood: "Moody cyber-luxe twilight with cobalt neon accents"
+      },
+      {
+        id: "bedroom",
+        name: "Presidential Sky Master Sanctuary",
+        shortLabel: "Sky Master Suite",
+        icon: "🛏️",
+        category: "bedroom",
+        cameraPos: [4.0, 6.3, 3.0],
+        lookAt: [3.8, 5.8, -2.2],
+        hotspotPos: [4.2, 6.2, 0.2],
+        area: "820 SQ FT",
+        floor: "Upper Duplex Level (65)",
+        tagline: "Wake up suspended above the skyline with 270-degree horizons",
+        description: "Occupying the corner crown of Level 65, this master retreat offers a custom circular revolving bed concept, cashmere wall draping, private morning bar, and direct terrace access.",
+        architecturalMaterials: ["Warm Cashmere Wall Upholstery", "Smoked Eucalyptus Parquet", "Polished Bronze Baseboards"],
+        keyFeatures: ["Corner panoramic floor-to-ceiling glass", "Private sunrise espresso bar", "Dual walk-in glass jewel-box dressing rooms"],
+        lightingMood: "Warm celestial twilight with motorized blackout control"
+      },
+      {
+        id: "bathroom",
+        name: "Cloud Spa Bath & Japanese Smart Toilet",
+        shortLabel: "Sky Bath & Toilet",
+        icon: "🛁",
+        category: "bathroom",
+        cameraPos: [6.5, 6.2, -3.0],
+        lookAt: [5.0, 5.8, -5.0],
+        hotspotPos: [5.8, 6.2, -4.2],
+        area: "340 SQ FT",
+        floor: "Upper Duplex Level (65)",
+        tagline: "Cantilevered glass-edge bathtub hovering over the horizon",
+        description: "Experience bathing at 800 feet altitude with an oversized soaking tub placed directly against glass, a steam aromatherapy rain shower, and a Japanese smart bidet toilet suite.",
+        architecturalMaterials: ["Nero Portoro Italian Marble", "Smart Electrochromic Privacy Glass", "Brushed Gold Fixtures"],
+        keyFeatures: ["Cantilevered perimeter tub overlooking city", "Aromatherapy steam shower cabin", "Toto Neorest Japanese smart toilet with auto-sanitization"],
+        lightingMood: "Soft perimeter candlelight effect and star-ceiling fiber optics"
+      },
+      {
+        id: "pool",
+        name: "Level 65 Cantilevered Sky Infinity Pool",
+        shortLabel: "Sky Pool Deck",
+        icon: "🏊",
+        category: "pool",
+        cameraPos: [-9.0, 3.4, 6.2],
+        lookAt: [-4.8, 1.3, 1.2],
+        hotspotPos: [-7.5, 1.8, 2.2],
+        area: "1,100 SQ FT",
+        floor: "Level 65 Skydeck",
+        tagline: "Glass-bottom heated infinity pool suspended over the city",
+        description: "One of the world's most dramatic private swimming pools, featuring acrylic glass edge walls, underwater sound speakers, temperature control, and surrounding teak sunbeds.",
+        architecturalMaterials: ["Structural Acrylic Glass Panels", "Teak Composite Decking", "Stainless Marine Steel"],
+        keyFeatures: ["Transparent glass infinity overflow edge", "Integrated underwater hydrotherapy jets", "Sunken twilight fire-pit lounge"],
+        lightingMood: "Luminescent electric cyan and sunset gold reflections"
+      }
+    ]
+  },
+  {
+    id: "home-3",
+    slug: "palacio-da-praia",
+    title: "Palacio Da Praia",
+    type: "Portuguese-Modern Beachfront Estate",
+    location: "Ashwem Beachfront, North Goa",
+    skyColor: 0x080c10,
+    groundColor: 0x1c1e20,
+    ambientColor: 0xfef08a,
+    sunColor: 0xfde047,
+    accentColor: "#eab308",
+    environmentType: "coastal",
+    description: "Secluded oceanfront estate with terracotta eaves, shaded colonnades, and private beach gate.",
+    rooms: [
+      {
+        id: "exterior",
+        name: "Heritage Colonnade Arrival & Eaves",
+        shortLabel: "Colonnade Portico",
+        icon: "🏛️",
+        category: "exterior",
+        cameraPos: [15, 8.5, 16],
+        lookAt: [0, 2.2, 0],
+        hotspotPos: [7, 2.8, 7],
+        area: "1,800 SQ FT",
+        floor: "Beachfront Level",
+        tagline: "Traditional Indo-Portuguese arches meeting crisp modern minimalism",
+        description: "Surrounded by swaying coconut palms, the estate unfolds with terracotta clay roof tiles, exposed laterite stone masonry, whitewashed archways, and warm carriage lantern lights.",
+        architecturalMaterials: ["Local Red Laterite Stone", "Handmade Terracotta Tiles", "Limewashed Archways"],
+        keyFeatures: ["Private oceanfront gate directly onto sand", "Shaded double-arch colonnade", "Central courtyard water fountain"],
+        lightingMood: "Warm golden hour tropical sunlight"
+      },
+      {
+        id: "garden",
+        name: "Tropical Palm Grove & Frangipani Lawn",
+        shortLabel: "Palm Garden",
+        icon: "🌿",
+        category: "garden",
+        cameraPos: [-9, 3.2, 10],
+        lookAt: [-5, 1.4, 2.5],
+        hotspotPos: [-8, 1.6, 5.5],
+        area: "3,200 SQ FT",
+        floor: "Seaside Estate Grounds",
+        tagline: "Fragrant Frangipani trees, swaying king palms, and sandy path to sea",
+        description: "A verdant coastal oasis dotted with blooming frangipani blossoms, hammocks strung between palm trees, stone water urns, and a private stone walkway to the tide line.",
+        architecturalMaterials: ["Natural Beach Sand & Stone Path", "Hand-carved Stone Urns", "Goan Laterite Borders"],
+        keyFeatures: ["Direct private beach pathway", "Outdoor tropical rain shower alcove", "Shaded meditation gazebo"],
+        lightingMood: "Gentle tropical sea breeze illumination"
+      },
+      {
+        id: "living",
+        name: "Open-Air Coastal Verandah Salon",
+        shortLabel: "Verandah Salon",
+        icon: "🛋️",
+        category: "living",
+        cameraPos: [2.4, 2.1, 4.4],
+        lookAt: [1.0, 1.8, -4],
+        hotspotPos: [1.9, 2.3, 0.4],
+        area: "1,100 SQ FT",
+        floor: "Main Pavilion",
+        tagline: "Breezy cross-ventilated salon looking out over crashing waves",
+        description: "Designed for barefoot luxury living, with hand-painted ceramic Azulejos tiles, low rattan daybeds, breezy ceiling fans, woven jute rugs, and unobstructed ocean vistas.",
+        architecturalMaterials: ["Portuguese Handcrafted Azulejo Tiles", "Natural Bleached Rattan", "Reclaimed Teak Roof Trusses"],
+        keyFeatures: ["100% natural cross-ventilation openings", "Sunken seaside conversation lounge", "Built-in artisanal stone benches"],
+        lightingMood: "Soft afternoon sunbeams through louvers"
+      },
+      {
+        id: "kitchen",
+        name: "Artisanal Spice Kitchen & Woodfire Hearth",
+        shortLabel: "Spice Kitchen",
+        icon: "🍽️",
+        category: "kitchen",
+        cameraPos: [-3.7, 2.2, -2.4],
+        lookAt: [-1.2, 1.8, -4.4],
+        hotspotPos: [-2.4, 2.1, -4.1],
+        area: "390 SQ FT",
+        floor: "West Pavilion",
+        tagline: "Rustic terracotta brick pizza oven and reclaimed teak butcher block",
+        description: "Combines rustic Goan charm with modern appliances. Features an outdoor wood-fired hearth, copper cookware display, butcher block island, and open dining terrace.",
+        architecturalMaterials: ["Terracotta Brick Hearth", "Antique Brass Faucets", "Bleached Teak Wood"],
+        keyFeatures: ["Wood-fired outdoor hearth & barbecue", "Sub-Zero beverage cooler", "Copper hanging herb & spice rack"],
+        lightingMood: "Flickering warm firelight & brass pendant glows"
+      },
+      {
+        id: "games",
+        name: "Vintage Coastal Games & Rum Library",
+        shortLabel: "Games & Library",
+        icon: "🎱",
+        category: "games",
+        cameraPos: [5.4, 2.2, -2.6],
+        lookAt: [4.1, 1.8, -5.3],
+        hotspotPos: [4.4, 2.1, -4.6],
+        area: "480 SQ FT",
+        floor: "Mezzanine Loft",
+        tagline: "Artisan carved wooden pool table & vintage board game salon",
+        description: "A handsome colonial library housing antique chess sets, a handcrafted rosewood billiards table, vintage record player with vinyl collection, and vintage rum cellar.",
+        architecturalMaterials: ["Vintage Carved Rosewood", "Distressed Antique Brass", "Cane-backed Club Chairs"],
+        keyFeatures: ["Artisan 8ft rosewood billiards table", "Curated ocean library & vinyl audio", "Private rum & mezcal tasting corner"],
+        lightingMood: "Vintage amber library lamp glow"
+      },
+      {
+        id: "bedroom",
+        name: "Beachfront Canopy Master Suite",
+        shortLabel: "Canopy Master Suite",
+        icon: "🛏️",
+        category: "bedroom",
+        cameraPos: [4.1, 6.1, 3.1],
+        lookAt: [3.9, 5.7, -2.3],
+        hotspotPos: [4.3, 6.1, 0.4],
+        area: "720 SQ FT",
+        floor: "Upper Ocean Level",
+        tagline: "Romantic four-poster teak bed draped in sheer white mosquito gauze",
+        description: "Fall asleep to the sound of breaking waves. Features a four-poster reclaimed teak bed, private seaside balcony, exposed timber rafters, and walk-in dressing wardrobe.",
+        architecturalMaterials: ["Reclaimed Goan Teak Four-Poster Bed", "Woven Jute & Linen Rugs", "Terracotta Eaves"],
+        keyFeatures: ["Private balcony facing ocean sunset", "Four-poster carved teak bed", "Custom louvered timber shutters"],
+        lightingMood: "Candlelit dusk atmosphere with gentle breeze"
+      },
+      {
+        id: "bathroom",
+        name: "Open-Air Jungle Bath & Garden Toilet",
+        shortLabel: "Open-Air Bath & Toilet",
+        icon: "🛁",
+        category: "bathroom",
+        cameraPos: [6.6, 6.0, -3.1],
+        lookAt: [5.1, 5.7, -5.1],
+        hotspotPos: [6.0, 6.1, -4.4],
+        area: "310 SQ FT",
+        floor: "Upper Ocean Level",
+        tagline: "Stone soaking tub under open sky & outdoor palm shower",
+        description: "A private garden sanctuary where you bathe beneath the stars. Features a hand-carved river stone tub, copper rainfall shower, lush banana plants, and enclosed toilet suite.",
+        architecturalMaterials: ["Hand-carved Riverstone Tub", "Weathered Copper Plumbing", "Tropical Bamboo Enclosure"],
+        keyFeatures: ["Open-air skylight soaking tub", "Outdoor bamboo rain shower", "Dual copper vessel basins", "Private enclosed toilet cubicle"],
+        lightingMood: "Open sky starlight and warm garden lanterns"
+      },
+      {
+        id: "pool",
+        name: "Seaside 25m Lap Pool & Sunken Daybeds",
+        shortLabel: "Beachfront Pool",
+        icon: "🏊",
+        category: "pool",
+        cameraPos: [-9.1, 3.1, 6.4],
+        lookAt: [-4.9, 1.2, 1.4],
+        hotspotPos: [-7.6, 1.7, 2.4],
+        area: "1,400 SQ FT",
+        floor: "Garden Level",
+        tagline: "Emerald green quartzite lap pool merging with the Arabian sea",
+        description: "Flanked by coconut palms, this heated lap pool offers sunken water daybeds, umbrella cabanas, a swim-up fruit bar, and direct access onto the golden sand beach.",
+        architecturalMaterials: ["Emerald Quartzite Tiles", "Weathered Shore Teak", "Linen Sun Parasols"],
+        keyFeatures: ["Submerged water daybeds for sunbathing", "25-meter lap length with ocean view", "Swim-up cocktail bar counter"],
+        lightingMood: "Turquoise water shimmer with warm tiki garden torches"
+      }
+    ]
+  }
+];

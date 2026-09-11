@@ -1,0 +1,7 @@
+{
+  "name": "SMITH & STONE | Private Real Estate",
+  "description": "Next-generation luxury real estate property discovery platform featuring cinematic scroll walkthroughs, interactive 3D virtual tours, and AI concierge.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
