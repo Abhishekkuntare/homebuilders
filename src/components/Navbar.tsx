@@ -234,7 +234,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   md:w-10
                 "
               >
-                S
+                H
               </div>
 
               {/* Brand */}
@@ -256,7 +256,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     lg:tracking-[0.2em]
                   "
                 >
-                  Smith & Stone
+               Homebuilders
                 </span>
 
                 <span
@@ -736,7 +736,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       text-neutral-100
                     "
                   >
-                    Smith & Stone
+                 Homebuilders
                   </p>
 
                   <p
