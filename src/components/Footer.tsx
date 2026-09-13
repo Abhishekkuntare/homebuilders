@@ -108,10 +108,10 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 text-xs text-neutral-500">
           <div>
             <span className="font-serif text-lg tracking-[0.2em] text-white uppercase block mb-1">
-              Smith & Stone
+              Homebuilders
             </span>
             <p className="max-w-xl font-light leading-relaxed">
-              Smith & Stone Private Real Estate operates as a registered luxury advisory under RERA India & Dubai DED regulatory frameworks. All property representations, photographs, and architectural renderings are protected by copyright.
+             Homebuilders Private Real Estate operates as a registered luxury advisory under RERA India & Dubai DED regulatory frameworks. All property representations, photographs, and architectural renderings are protected by copyright.
             </p>
           </div>
 
@@ -139,7 +139,7 @@ export const Footer: React.FC<FooterProps> = ({
         </div>
 
         <div className="text-[11px] text-neutral-600 flex flex-col sm:flex-row items-center justify-between pt-6 border-t border-neutral-800/60">
-          <p>© 2026 Smith & Stone Private Real Estate. All rights reserved.</p>
+          <p>© 2026 Homebuilders Private Real Estate. All rights reserved.</p>
           <div className="flex items-center gap-4 mt-2 sm:mt-0">
             <a href="#" className="hover:text-neutral-400">Privacy Policy</a>
             <span>·</span>
